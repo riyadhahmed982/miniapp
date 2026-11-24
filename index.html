@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A9XGMR LIKE BOT</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#0b0d17;--card:rgba(20,24,40,.72);--card2:rgba(30,36,62,.8);--text:#eef0ff;--muted:#9aa1c4;--gold:#ffc83d;--line:rgba(255,255,255,.08)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Bengali",sans-serif;background:radial-gradient(900px 500px at 50% -10%,#2a1d52 0%,var(--bg) 60%) fixed;color:var(--text);min-height:100vh;padding:16px 16px 40px;max-width:560px;margin:auto}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.glowline{position:fixed;top:0;left:0;right:0;height:2px;z-index:5;background:linear-gradient(90deg,#ff4d8d,#ffc83d,#27d98a,#4d8dff,#b46bff,#ff4d8d);background-size:300% 100%;animation:slide 6s linear infinite;box-shadow:0 0 12px rgba(255,200,61,.6)}
+@keyframes slide{to{background-position:300% 0}}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.15em}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.badge{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;background:#27d98a;box-shadow:0 0 0 0 rgba(39,217,138,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(39,217,138,0)}100%{box-shadow:0 0 0 0 rgba(39,217,138,0)}}
+.lang{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:6px 13px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}
+.hero{border-radius:22px;padding:2px;position:relative;background:conic-gradient(from var(--a,0deg),#ff4d8d,#ffc83d,#27d98a,#4d8dff,#b46bff,#ff4d8d);animation:spin 7s linear infinite}
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+.hero-in{background:linear-gradient(135deg,#2c1760,#7a2f6b 60%,#c2603f);border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.hero h1{font-size:22px;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.hero h1 .i{font-size:26px;color:var(--gold);filter:drop-shadow(0 0 8px rgba(255,200,61,.7))}
+.hero p{opacity:.92;font-size:14px;margin-top:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.chip{background:rgba(0,0,0,.3);padding:5px 11px;border-radius:14px;font-size:12px;display:flex;align-items:center;gap:6px;backdrop-filter:blur(6px)}
+.chip .i{color:var(--gold)}
+.hello{margin:16px 2px 10px;font-size:15px;color:var(--muted)}
+.hello b{color:var(--text)}
+h2{font-size:13px;color:var(--muted);letter-spacing:.6px;margin:24px 2px 10px;display:flex;align-items:center;gap:10px;font-weight:600}
+h2:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;cursor:pointer;transition:transform .12s,border-color .2s,box-shadow .2s;text-align:left;color:var(--text);font:inherit;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.tile:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);box-shadow:0 0 12px var(--c);opacity:.85}
+.tile:active{transform:scale(.97)}
+.tile:hover{border-color:var(--c);box-shadow:0 0 22px -6px var(--c)}
+.ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;color:#fff;background:linear-gradient(145deg,var(--c),var(--c2));box-shadow:0 6px 16px -4px var(--c),inset 0 1px 0 rgba(255,255,255,.35)}
+.tile .t{font-weight:700;font-size:14px;margin-top:10px}
+.tile .d{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4}
+.list{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;backdrop-filter:blur(10px)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.row:last-child{border:0}
+.row span:first-child{display:flex;align-items:center;gap:10px}
+.row span:first-child .i{font-size:18px;color:#8fb4ff}
+.row span:last-child{color:var(--gold);font-weight:600}
+.pay{display:flex;flex-wrap:wrap;gap:8px}
+.pay span{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(8px)}
+.pay span:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.steps{counter-reset:s;list-style:none}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 48px;margin-bottom:8px;position:relative;font-size:14px;backdrop-filter:blur(10px)}
+.steps li:before{content:counter(s);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:linear-gradient(145deg,var(--gold),#ff9d3d);color:#222;font-weight:800;display:grid;place-items:center;font-size:13px}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:18px;background:linear-gradient(90deg,var(--gold),#ff9d3d);color:#1a1300;font-weight:800;font-size:16px;border:0;border-radius:16px;padding:15px;cursor:pointer;box-shadow:0 8px 24px -8px rgba(255,170,60,.7)}
+.cta .i{font-size:20px}
+.cta.alt{background:var(--card2);color:var(--text);border:1px solid var(--line);font-weight:600;margin-top:10px;box-shadow:none;backdrop-filter:blur(8px)}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#000c;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;transition:.25s;pointer-events:none;max-width:90%;text-align:center;z-index:10}
+.toast.show{transform:translateX(-50%) translateY(0)}
+/* ===== PREMIUM LAYER ===== */
+.aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.aurora i{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.3;animation:drift 24s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:#7a2fff;left:-22vmax;top:-22vmax}
+.aurora i:nth-child(2){background:#ff4d8d;right:-28vmax;top:32vh;animation-duration:30s;opacity:.22}
+.aurora i:nth-child(3){background:#1fc8ff;left:8vw;bottom:-38vmax;animation-duration:36s;opacity:.2}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.5))}
+.hero-in{background:linear-gradient(135deg,#1b0f47,#5a2a8a 55%,#b4546a)}
+.hero-in:after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-20deg);animation:sweep 6s ease-in-out infinite;pointer-events:none}
+@keyframes sweep{0%,55%{left:-60%}100%{left:140%}}
+.hero h1{font-weight:800;letter-spacing:1.2px}
+#botName{background:linear-gradient(90deg,#fff,#ffd978,#fff,#ffd978);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gold 5s linear infinite}
+@keyframes gold{to{background-position:-200% 0}}
+.hero .chip{border:1px solid rgba(255,255,255,.14)}
+h2{color:#d5d9f7;font-size:13px}
+h2:before{content:"";width:3px;height:14px;border-radius:2px;background:linear-gradient(var(--gold),#ff4d8d);box-shadow:0 0 10px rgba(255,200,61,.6)}
+.tile{background:radial-gradient(170px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.11),transparent 62%),linear-gradient(160deg,rgba(34,40,70,.8),rgba(15,18,33,.8));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 26px -16px #000;animation:rise .7s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--k,0)*55ms)}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.96)}}
+.ic{position:relative;overflow:hidden}
+.ic:after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.35),transparent 45%)}
+.list,.steps li,.pay span{box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.pay span{border-color:color-mix(in srgb,var(--c) 40%,transparent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 14%,rgba(20,24,40,.8)),rgba(20,24,40,.8));font-weight:600}
+.steps li:before{box-shadow:0 0 14px rgba(255,200,61,.55)}
+.cta{position:relative;overflow:hidden;letter-spacing:.4px}
+.cta:not(.alt):after{content:"";position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sweep 4.5s ease-in-out infinite}
+/* ===== চার সাইডে চার রঙের অ্যানিমেটেড বর্ডার ===== */
+.list,.pay span,.lang{position:relative}
+.tile:before,.list:after,.steps li:after,.pay span:after,.cta.alt:after,.lang:after{
+  content:"";position:absolute;inset:0;width:auto;height:auto;left:0;top:0;bottom:0;right:0;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:1;box-shadow:none;
+  background:conic-gradient(from var(--a,0deg),#ff4d8d,#ffc83d,#27d98a,#4d8dff,#b46bff,#ff4d8d);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:spin 6s linear infinite;animation-delay:calc(var(--k,0)*-.8s)}
+.pay span:after,.lang:after{padding:1.2px}
+.tile{border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 26px -16px #000,0 0 22px -12px var(--c)}
+.tile:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 26px -6px var(--c)}
+@media (prefers-reduced-motion:reduce){.glowline,.hero,.dot,.aurora i,.tile,.hero-in:after,.cta:after,#botName,.tile:before,.list:after,.steps li:after,.pay span:after,.cta.alt:after,.lang:after{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="aurora"><i></i><i></i><i></i></div>
+<canvas id="bg"></canvas>
+<div class="glowline"></div>
+
+<div class="top">
+  <span class="badge"><span class="dot"></span>Online</span>
+  <button class="lang" id="langBtn"></button>
+</div>
+
+<div class="hero"><div class="hero-in">
+  <h1><span data-ic="crown"></span><span id="botName">A9XGMR LIKE BOT</span></h1>
+  <p data-i="tag">দ্রুত • নিরাপদ • ২৪/৭ অটো লাইক</p>
+  <div class="chips"><span class="chip"><span data-ic="zap"></span>Fast</span><span class="chip"><span data-ic="shield"></span>Safe</span><span class="chip"><span data-ic="bot"></span>24/7 Auto</span></div>
+</div></div>
+
+<p class="hello"><span data-i="hi">স্বাগতম</span>, <b id="uname">Friend</b></p>
+
+<h2 data-i="svc">সার্ভিস</h2>
+<div class="grid" id="services"></div>
+
+<h2 data-i="pkgH">অটো লাইক প্যাকেজ</h2>
+<div class="list">
+  <div class="row"><span><span data-ic="package"></span>7 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span><span data-ic="package"></span>15 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span><span data-ic="package"></span>30 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span><span data-ic="infinity"></span>Lifetime</span><span data-i="inBot">বটে দেখুন</span></div>
+</div>
+<p class="badge" style="margin:8px 2px" data-i="priceNote">সর্বশেষ দাম বটের Price List-এ দেখুন।</p>
+
+<h2 data-i="payH">পেমেন্ট মেথড</h2>
+<div class="pay">
+  <span style="--c:#e2136e">bKash</span><span style="--c:#f6921e">Nagad</span><span style="--c:#8c3494">Rocket</span>
+  <span style="--c:#ffd21f">Upay</span><span style="--c:#f3ba2f">Binance</span><span style="--c:#4d8dff">UPI</span>
+</div>
+
+<h2 data-i="howH">কীভাবে ব্যবহার করবেন</h2>
+<ol class="steps">
+  <li data-i="s1">বটে গিয়ে ADD MONEY দিয়ে ব্যালেন্স যোগ করুন</li>
+  <li data-i="s2">BUY DAILY LIKE বা AUTO LIKE বেছে নিন</li>
+  <li data-i="s3">আপনার Free Fire UID দিন ও Confirm করুন</li>
+  <li data-i="s4">লাইক সফল হলে রিপোর্ট পাবেন</li>
+</ol>
+
+<button class="cta" id="openBot"><span data-ic="rocket"></span><span data-i="openBot">বটে ফিরে যান</span></button>
+<button class="cta alt" id="support"><span data-ic="lifebuoy"></span><span data-i="support">সাপোর্টে যোগাযোগ</span></button>
+
+<footer>© <span id="foot">A9XGMR LIKE BOT</span></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== কনফিগ — এখানে নিজের তথ্য বসান ===== */
+const CONFIG = {
+  BOT_NAME: "A9XGMR LIKE BOT",
+  BOT_USERNAME: "YOUR_BOT_USERNAME",          // @ ছাড়া, যেমন: MyLikeBot
+  SUPPORT_LINK: "https://t.me/JAHAN_A9XGMR_WORLD",
+  CHANNEL_LINK: ""
+};
+/* ======================================== */
+
+/* প্রিমিয়াম SVG আইকন (কিবোর্ড ইমোজি নয়) */
+const P = {
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.150.4-2.300 1-3a2.500 2.500 0 0 0 2.500 2.500z"/>',
+  gift:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.500 2.500 0 0 1 0-5C10 3 12 8 12 8s2-5 4.500-5a2.500 2.500 0 0 1 0 5"/>',
+  star:'<path d="M12 2l3.100 6.300 6.900 1-5 4.900 1.200 6.900-6.200-3.300-6.200 3.300L7 14.200 2 9.300l6.900-1z"/>',
+  list:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M12 11h4M12 16h4M8 11h.01M8 16h.01"/>',
+  wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+  game:'<path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/>',
+  ticket:'<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 17v2M13 11v2"/>',
+  tv:'<rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2l-5 5-5-5"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.900M16 3.100a4 4 0 0 1 0 7.800"/>',
+  store:'<path d="M3 9l1-5h16l1 5"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 12v9h14v-9"/>',
+  crown:'<path d="M2 18l2-11 5 5 3-8 3 8 5-5 2 11z"/><path d="M3 21h18"/>',
+  zap:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+  bot:'<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/>',
+  package:'<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.300 7L12 12l8.700-5M12 22V12"/>',
+  infinity:'<path d="M12 12c-2-2.700-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.300 6-4zm0 0c2 2.700 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.300-6 4z"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>',
+  rocket:'<path d="M4.500 16.500c-1.500 1.300-2 5-2 5s3.700-.5 5-2c.7-.8.7-2.100-.1-2.900a2.200 2.200 0 0 0-2.900-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-4A13 13 0 0 1 22 2c0 2.700-.8 7.500-6 11a22 22 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.600-1.100 5 0 5 0M12 15v5s3-.6 4-2c1.100-1.600 0-5 0-5"/>',
+  lifebuoy:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M4.900 4.900l4.200 4.200M14.900 14.900l4.200 4.200M14.900 9.100l4.200-4.200M4.900 19.100l4.200-4.200"/>'
+};
+const ico = n => '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>';
+
+const T = {
+  bn:{tag:"দ্রুত • নিরাপদ • ২৪/৭ অটো লাইক",hi:"স্বাগতম",svc:"সার্ভিস",pkgH:"অটো লাইক প্যাকেজ",inBot:"বটে দেখুন",
+    priceNote:"সর্বশেষ দাম বটের Price List-এ দেখুন।",payH:"পেমেন্ট মেথড",howH:"কীভাবে ব্যবহার করবেন",
+    s1:"বটে গিয়ে ADD MONEY দিয়ে ব্যালেন্স যোগ করুন",s2:"BUY DAILY LIKE বা AUTO LIKE বেছে নিন",
+    s3:"আপনার Free Fire UID দিন ও Confirm করুন",s4:"লাইক সফল হলে রিপোর্ট পাবেন",
+    openBot:"বটে ফিরে যান",support:"সাপোর্টে যোগাযোগ",lang:"EN",open:"বটে গিয়ে এই মেনু বাটনটি চাপুন:",
+    cfg:"BOT_USERNAME সেট করা নেই"},
+  en:{tag:"Fast • Safe • 24/7 Auto Likes",hi:"Welcome",svc:"Services",pkgH:"Auto Like Packages",inBot:"See in bot",
+    priceNote:"See the latest prices in the bot's Price List.",payH:"Payment Methods",howH:"How it works",
+    s1:"Open the bot and add balance via ADD MONEY",s2:"Choose BUY DAILY LIKE or AUTO LIKE",
+    s3:"Enter your Free Fire UID and confirm",s4:"You get a report when likes are delivered",
+    openBot:"Back to bot",support:"Contact support",lang:"বাংলা",open:"In the bot, tap this menu button:",
+    cfg:"BOT_USERNAME is not set"}
+};
+const SERVICES = [
+  {ic:"flame",c:["#ff6a3d","#ff3d6e"],bn:["BUY DAILY LIKE","একদিনের লাইক কিনুন"],en:["BUY DAILY LIKE","Buy a one-time like"]},
+  {ic:"gift",c:["#27d98a","#12a8a0"],bn:["DAILY FREE LIKE","দিনে ১ বার ফ্রি"],en:["DAILY FREE LIKE","1 free like per day"]},
+  {ic:"star",c:["#ffc83d","#ff9d3d"],bn:["AUTO LIKE","প্রতিদিন অটো লাইক"],en:["AUTO LIKE","Daily automatic likes"]},
+  {ic:"list",c:["#4d8dff","#6a5cff"],bn:["MY AUTO LIKE","আপনার প্যাকেজ"],en:["MY AUTO LIKE","Your packages"]},
+  {ic:"wallet",c:["#2bd37b","#22a6e0"],bn:["ADD MONEY","ব্যালেন্স যোগ করুন"],en:["ADD MONEY","Top up balance"]},
+  {ic:"game",c:["#b46bff","#6a5cff"],bn:["EXTRA FEATURES","Player Info, Leaderboard"],en:["EXTRA FEATURES","Player Info, Leaderboard"]},
+  {ic:"ticket",c:["#ff4d8d","#ff7a59"],bn:["REDEEM CODE","কোড দিয়ে টাকা"],en:["REDEEM CODE","Get balance with a code"]},
+  {ic:"tv",c:["#3dc9ff","#4d8dff"],bn:["WATCH AD & EARN","এড দেখে ইনকাম"],en:["WATCH AD & EARN","Earn by watching ads"]},
+  {ic:"users",c:["#ff7ad9","#b46bff"],bn:["REFER & EARN","বন্ধুকে রেফার করুন"],en:["REFER & EARN","Invite friends"]},
+  {ic:"store",c:["#ffb03d","#ff6a3d"],bn:["RESELLER","রিসেলার ডিসকাউন্ট"],en:["RESELLER","Reseller discount"]}
+];
+
+const tg = window.Telegram && Telegram.WebApp;
+let lang = "bn";
+try{ lang = localStorage.getItem("lang") || ((tg?.initDataUnsafe?.user?.language_code||"").startsWith("bn")?"bn":"en"); }catch(e){}
+
+const $ = id => document.getElementById(id);
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)}
+function botLink(){ return CONFIG.BOT_USERNAME && CONFIG.BOT_USERNAME!=="YOUR_BOT_USERNAME" ? "https://t.me/"+CONFIG.BOT_USERNAME : null }
+function openTg(url){ tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url,"_blank") }
+
+document.querySelectorAll("[data-ic]").forEach(el=>el.outerHTML=ico(el.dataset.ic));
+
+function render(){
+  const L=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(el=>{ if(L[el.dataset.i]) el.textContent=L[el.dataset.i] });
+  $("langBtn").innerHTML=ico("globe")+L.lang;
+  $("services").innerHTML = SERVICES.map((s,i)=>`
+    <button class="tile" data-n="${i}" style="--c:${s.c[0]};--c2:${s.c[1]};--k:${i}"><div class="ic">${ico(s.ic)}</div><div class="t">${s[lang][0]}</div><div class="d">${s[lang][1]}</div></button>`).join("");
+  document.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{
+    const s=SERVICES[b.dataset.n];
+    tg?.HapticFeedback?.impactOccurred("light");
+    toast(L.open+" "+s.en[0]);
+    setTimeout(()=>{ const l=botLink(); if(l) openTg(l); else toast(L.cfg) },900);
+  });
+}
+
+$("botName").textContent=$("foot").textContent=CONFIG.BOT_NAME;
+$("langBtn").onclick=()=>{ lang = lang==="bn"?"en":"bn"; try{localStorage.setItem("lang",lang)}catch(e){} render() };
+$("openBot").onclick=()=>{ const l=botLink(); if(l) openTg(l); else toast(T[lang].cfg); tg?.close?.() };
+$("support").onclick=()=>openTg(CONFIG.SUPPORT_LINK);
+
+if(tg){
+  tg.ready(); tg.expand();
+  try{ tg.setHeaderColor("#0b0d17"); tg.setBackgroundColor("#0b0d17"); }catch(e){}
+  const u=tg.initDataUnsafe?.user;
+  if(u) $("uname").textContent=[u.first_name,u.last_name].filter(Boolean).join(" ")||"Friend";
+}
+render();
+
+$("services").addEventListener("pointermove",e=>{
+  const t=e.target.closest(".tile"); if(!t) return;
+  const r=t.getBoundingClientRect();
+  t.style.setProperty("--mx",(e.clientX-r.left)+"px");
+  t.style.setProperty("--my",(e.clientY-r.top)+"px");
+});
+
+/* ===== অ্যানিমেটেড ব্যাকগ্রাউন্ড: সারাক্ষণ উড়ে চলা ছোট রঙিন লাইন ===== */
+(function(){
+  const cv=$("bg"), cx=cv.getContext("2d");
+  const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let W,H,D,lines=[],hue=0;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  function make(initial){
+    return {x:rnd(0,W),y:initial?rnd(0,H):H+rnd(20,200),len:rnd(24,90),sp:rnd(.4,1.6),w:rnd(1,2.2),h:rnd(0,360),dh:rnd(.2,.8)};
+  }
+  function size(){
+    D=Math.min(devicePixelRatio||1,2);
+    W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0);
+    const n=Math.round(Math.min(60,Math.max(24,W*H/14000)));
+    lines=Array.from({length:n},()=>make(true));
+  }
+  function frame(){
+    cx.clearRect(0,0,W,H);
+    cx.lineCap="round";
+    for(const l of lines){
+      l.y-=l.sp; l.h=(l.h+l.dh)%360;
+      if(l.y+l.len<0){Object.assign(l,make(false));}
+      const g=cx.createLinearGradient(l.x,l.y,l.x,l.y+l.len);
+      g.addColorStop(0,`hsla(${l.h},95%,65%,.9)`);
+      g.addColorStop(1,`hsla(${(l.h+60)%360},95%,60%,0)`);
+      cx.strokeStyle=g;cx.lineWidth=l.w;cx.shadowColor=`hsl(${l.h},95%,60%)`;cx.shadowBlur=8;
+      cx.beginPath();cx.moveTo(l.x,l.y);cx.lineTo(l.x,l.y+l.len);cx.stroke();
+    }
+    if(!still&&!document.hidden) requestAnimationFrame(frame);
+  }
+  addEventListener("resize",size);
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&!still) requestAnimationFrame(frame) });
+  size();frame();
+})();
+</script>
+</body>
+</html>
