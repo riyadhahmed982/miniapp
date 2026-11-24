@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A9XGMR LIKE BOT</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#0b0d17;--card:#141828;--card2:#1b2038;--text:#eef0ff;--muted:#8f96b8;--gold:#ffc83d;--pink:#ff4d8d;--green:#27d98a;--blue:#4d8dff;--line:rgba(255,255,255,.07)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Bengali",sans-serif;background:radial-gradient(900px 500px at 50% -10%,#2a1d52 0%,var(--bg) 60%) fixed;color:var(--text);min-height:100vh;padding:16px 16px 40px;max-width:560px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.badge{font-size:12px;color:var(--muted)}
+.lang{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
+.hero{background:linear-gradient(135deg,#3a1c71,#d76d77 60%,#ffaf7b);border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.hero h1{font-size:22px;letter-spacing:.5px}
+.hero p{opacity:.92;font-size:14px;margin-top:6px}
+.hero .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.chip{background:rgba(0,0,0,.28);padding:4px 10px;border-radius:14px;font-size:12px}
+.hello{margin:16px 2px 10px;font-size:15px;color:var(--muted)}
+.hello b{color:var(--text)}
+h2{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin:22px 2px 10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;cursor:pointer;transition:transform .12s,border-color .12s;text-align:left;color:var(--text);font:inherit}
+.tile:active{transform:scale(.97)}
+.tile:hover{border-color:rgba(255,200,61,.5)}
+.tile .ic{font-size:26px}
+.tile .t{font-weight:700;font-size:14px;margin-top:8px}
+.tile .d{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4}
+.tile.wide{grid-column:1/-1;display:flex;gap:12px;align-items:center}
+.tile.wide .t{margin-top:0}
+.list{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.row:last-child{border:0}
+.row span:last-child{color:var(--gold);font-weight:600}
+.pay{display:flex;flex-wrap:wrap;gap:8px}
+.pay span{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px}
+.steps{counter-reset:s;list-style:none}
+.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 48px;margin-bottom:8px;position:relative;font-size:14px}
+.steps li:before{content:counter(s);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--gold);color:#222;font-weight:800;display:grid;place-items:center;font-size:13px}
+.cta{display:block;width:100%;margin-top:18px;background:linear-gradient(90deg,var(--gold),#ff9d3d);color:#1a1300;font-weight:800;font-size:16px;border:0;border-radius:16px;padding:15px;cursor:pointer}
+.cta.alt{background:var(--card2);color:var(--text);border:1px solid var(--line);font-weight:600;margin-top:10px}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#000c;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;transition:.25s;pointer-events:none;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span class="badge" id="status">● Online</span>
+  <button class="lang" id="langBtn">🌐 EN</button>
+</div>
+
+<div class="hero">
+  <h1>👑 <span id="botName">A9XGMR LIKE BOT</span></h1>
+  <p data-i="tag">দ্রুত • নিরাপদ • ২৪/৭ অটো লাইক</p>
+  <div class="chips"><span class="chip">⚡ Fast</span><span class="chip">🛡 Safe</span><span class="chip">🤖 24/7 Auto</span></div>
+</div>
+
+<p class="hello"><span data-i="hi">স্বাগতম</span>, <b id="uname">Friend</b> ✨</p>
+
+<h2 data-i="svc">সার্ভিস</h2>
+<div class="grid" id="services"></div>
+
+<h2 data-i="pkgH">অটো লাইক প্যাকেজ</h2>
+<div class="list">
+  <div class="row"><span>📦 7 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span>📦 15 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span>📦 30 Days</span><span data-i="inBot">বটে দেখুন</span></div>
+  <div class="row"><span>♾️ Lifetime</span><span data-i="inBot">বটে দেখুন</span></div>
+</div>
+<p class="badge" style="margin:8px 2px" data-i="priceNote">সর্বশেষ দাম বটের 💵 Price List-এ দেখুন।</p>
+
+<h2 data-i="payH">পেমেন্ট মেথড</h2>
+<div class="pay"><span>🟣 bKash</span><span>🟠 Nagad</span><span>🟪 Rocket</span><span>🟡 Upay</span><span>🔶 Binance</span><span>🇮🇳 UPI</span></div>
+
+<h2 data-i="howH">কীভাবে ব্যবহার করবেন</h2>
+<ol class="steps">
+  <li data-i="s1">বটে গিয়ে 💰 ADD MONEY দিয়ে ব্যালেন্স যোগ করুন</li>
+  <li data-i="s2">🔥 BUY DAILY LIKE বা ⭐ AUTO LIKE বেছে নিন</li>
+  <li data-i="s3">আপনার Free Fire UID দিন ও Confirm করুন</li>
+  <li data-i="s4">লাইক সফল হলে রিপোর্ট পাবেন ✅</li>
+</ol>
+
+<button class="cta" id="openBot" data-i="openBot">🚀 বটে ফিরে যান</button>
+<button class="cta alt" id="support" data-i="support">🆘 সাপোর্টে যোগাযোগ</button>
+
+<footer>© <span id="foot">A9XGMR LIKE BOT</span></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== কনফিগ — এখানে নিজের তথ্য বসান ===== */
+const CONFIG = {
+  BOT_NAME: "A9XGMR LIKE BOT",
+  BOT_USERNAME: "YOUR_BOT_USERNAME",          // @ ছাড়া, যেমন: MyLikeBot
+  SUPPORT_LINK: "https://t.me/JAHAN_A9XGMR_WORLD",
+  CHANNEL_LINK: ""                              // চাইলে চ্যানেলের লিংক দিন
+};
+/* ======================================== */
+
+const T = {
+  bn:{tag:"দ্রুত • নিরাপদ • ২৪/৭ অটো লাইক",hi:"স্বাগতম",svc:"সার্ভিস",pkgH:"অটো লাইক প্যাকেজ",inBot:"বটে দেখুন",
+    priceNote:"সর্বশেষ দাম বটের 💵 Price List-এ দেখুন।",payH:"পেমেন্ট মেথড",howH:"কীভাবে ব্যবহার করবেন",
+    s1:"বটে গিয়ে 💰 ADD MONEY দিয়ে ব্যালেন্স যোগ করুন",s2:"🔥 BUY DAILY LIKE বা ⭐ AUTO LIKE বেছে নিন",
+    s3:"আপনার Free Fire UID দিন ও Confirm করুন",s4:"লাইক সফল হলে রিপোর্ট পাবেন ✅",
+    openBot:"🚀 বটে ফিরে যান",support:"🆘 সাপোর্টে যোগাযোগ",lang:"🌐 EN",open:"বটে গিয়ে এই মেনু বাটনটি চাপুন:",
+    cfg:"BOT_USERNAME সেট করা নেই"},
+  en:{tag:"Fast • Safe • 24/7 Auto Likes",hi:"Welcome",svc:"Services",pkgH:"Auto Like Packages",inBot:"See in bot",
+    priceNote:"See the latest prices in the bot's 💵 Price List.",payH:"Payment Methods",howH:"How it works",
+    s1:"Open the bot and add balance via 💰 ADD MONEY",s2:"Choose 🔥 BUY DAILY LIKE or ⭐ AUTO LIKE",
+    s3:"Enter your Free Fire UID and confirm",s4:"You get a report when likes are delivered ✅",
+    openBot:"🚀 Back to bot",support:"🆘 Contact support",lang:"🌐 বাংলা",open:"In the bot, tap this menu button:",
+    cfg:"BOT_USERNAME is not set"}
+};
+const SERVICES = [
+  {ic:"🔥",bn:["BUY DAILY LIKE","একদিনের লাইক কিনুন"],en:["BUY DAILY LIKE","Buy a one-time like"],btn:"🔥 BUY DAILY LIKE"},
+  {ic:"🎁",bn:["DAILY FREE LIKE","দিনে ১ বার ফ্রি"],en:["DAILY FREE LIKE","1 free like per day"],btn:"🎁 DAILY FREE LIKE"},
+  {ic:"⭐",bn:["AUTO LIKE","প্রতিদিন অটো লাইক"],en:["AUTO LIKE","Daily automatic likes"],btn:"⭐ AUTO LIKE"},
+  {ic:"📋",bn:["MY AUTO LIKE","আপনার প্যাকেজ"],en:["MY AUTO LIKE","Your packages"],btn:"📋 MY AUTO LIKE"},
+  {ic:"💰",bn:["ADD MONEY","ব্যালেন্স যোগ করুন"],en:["ADD MONEY","Top up balance"],btn:"💰 ADD MONEY"},
+  {ic:"🎮",bn:["EXTRA FEATURES","Player Info, Leaderboard"],en:["EXTRA FEATURES","Player Info, Leaderboard"],btn:"🎮 EXTRA FEATURES"},
+  {ic:"🎟",bn:["REDEEM CODE","কোড দিয়ে টাকা"],en:["REDEEM CODE","Get balance with a code"],btn:"🎟 REDEEM CODE"},
+  {ic:"📺",bn:["WATCH AD & EARN","এড দেখে ইনকাম"],en:["WATCH AD & EARN","Earn by watching ads"],btn:"📺 WATCH AD & EARN"},
+  {ic:"🎁",bn:["REFER & EARN","বন্ধুকে রেফার করুন"],en:["REFER & EARN","Invite friends"],btn:"🎁 REFER & EARN"},
+  {ic:"🏪",bn:["RESELLER","রিসেলার ডিসকাউন্ট"],en:["RESELLER","Reseller discount"],btn:"🏪 APPLYING FOR RESELLER"}
+];
+
+const tg = window.Telegram && Telegram.WebApp;
+let lang = "bn";
+try{ lang = localStorage.getItem("lang") || ((tg?.initDataUnsafe?.user?.language_code||"").startsWith("bn")?"bn":"en"); }catch(e){}
+
+const $ = id => document.getElementById(id);
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)}
+function botLink(){ return CONFIG.BOT_USERNAME && CONFIG.BOT_USERNAME!=="YOUR_BOT_USERNAME" ? "https://t.me/"+CONFIG.BOT_USERNAME : null }
+function openTg(url){ tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url,"_blank") }
+
+function render(){
+  const L=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(el=>{ if(L[el.dataset.i]) el.textContent=L[el.dataset.i] });
+  $("langBtn").textContent=L.lang;
+  $("services").innerHTML = SERVICES.map((s,i)=>`
+    <button class="tile" data-n="${i}"><div class="ic">${s.ic}</div><div class="t">${s[lang][0]}</div><div class="d">${s[lang][1]}</div></button>`).join("");
+  document.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{
+    const s=SERVICES[b.dataset.n];
+    tg?.HapticFeedback?.impactOccurred("light");
+    toast(L.open+" "+s.btn);
+    setTimeout(()=>{ const l=botLink(); if(l) openTg(l); else toast(L.cfg) },900);
+  });
+}
+
+$("botName").textContent=$("foot").textContent=CONFIG.BOT_NAME;
+$("langBtn").onclick=()=>{ lang = lang==="bn"?"en":"bn"; try{localStorage.setItem("lang",lang)}catch(e){} render() };
+$("openBot").onclick=()=>{ const l=botLink(); if(l) openTg(l); else toast(T[lang].cfg); tg?.close?.() };
+$("support").onclick=()=>openTg(CONFIG.SUPPORT_LINK);
+
+if(tg){
+  tg.ready(); tg.expand();
+  try{ tg.setHeaderColor("#0b0d17"); tg.setBackgroundColor("#0b0d17"); }catch(e){}
+  const u=tg.initDataUnsafe?.user;
+  if(u) $("uname").textContent=[u.first_name,u.last_name].filter(Boolean).join(" ")||"Friend";
+}
+render();
+</script>
+</body>
+</html>
